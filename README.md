@@ -53,7 +53,8 @@ Then, configure your Telegram Bot API Token:
 // config/services.php
 ...
 'telegram-bot-api' => [
-    'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE')
+    'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE'),
+    'http_options' => [],
 ],
 ...
 ```
