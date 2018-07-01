@@ -4,6 +4,7 @@ namespace NotificationChannels\Telegram;
 
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\Exceptions\CouldNotSendNotification;
+use Log;
 
 class TelegramChannel
 {
@@ -46,6 +47,18 @@ class TelegramChannel
 
         $params = $message->toArray();
 
-        $this->telegram->sendMessage($params);
+        $telegram_msg = $this->telegram->sendMessage($params);
+
+        if ($message->pinned()) {
+            Log::info("pin message");
+            Log::info(json_encode($telegram_msg, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+            $params = [];
+            $params['chat_id']    = $message->getTo();
+            //$params['message_id'] = $telegram_msg['msg_id'];
+            $params['disable_notification'] = $message->pinNotificationDisabled();
+
+            //$this->telegram->pinChatMessage($params);
+        }
     }
 }

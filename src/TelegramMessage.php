@@ -15,6 +15,16 @@ class TelegramMessage
     protected $buttons = [];
 
     /**
+     * @var bool Pin this message to a channel
+     */
+    protected $pinMessage = false;
+
+    /**
+     * @var bool disable notifications at message pin
+     */
+    protected $pinMessageDisableNotification = true;
+
+    /**
      * @param string $content
      *
      * @return static
@@ -47,6 +57,16 @@ class TelegramMessage
         $this->payload['chat_id'] = $chatId;
 
         return $this;
+    }
+
+    /**
+     * Recipient's Chat ID.
+     *
+     * @return int|string
+     */
+    public function getTo()
+    {
+        return $this->payload['chat_id'];
     }
 
     /**
@@ -93,6 +113,42 @@ class TelegramMessage
         $this->payload = array_merge($this->payload, $options);
 
         return $this;
+    }
+
+    /**
+     * Pin this message to a channel.
+     *
+     * @param boolean $disable_notification Pass True, if it is not necessary to send a notification to all chat members
+     *                                      about the new pinned message. Notifications are always disabled in channels.
+     *
+     * @return $this
+     */
+    public function pin($disable_notification = true)
+    {
+        $this->pinMessage = true;
+        $this->pinMessageDisableNotification = $disable_notification;
+
+        return $this;
+    }
+
+    /**
+     * Determine if we need to pin this message.
+     *
+     * @return bool
+     */
+    public function pinned()
+    {
+        return $this->pinMessage;
+    }
+
+    /**
+     * Determine if we need disable notification on pin.
+     *
+     * @return bool
+     */
+    public function pinNotificationDisabled()
+    {
+        return $this->pinMessageDisableNotification;
     }
 
     /**

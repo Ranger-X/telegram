@@ -70,6 +70,32 @@ class Telegram
     }
 
     /**
+     * Pin a message to the chat.
+     *
+     * <code>
+     * $params = [
+     *   'chat_id'                  => '',
+     *   'messageg_id'              => '',
+     *   'disable_notification'     => '',
+     * ];
+     * </code>
+     *
+     * @link https://core.telegram.org/bots/api#pinchatmessage
+     *
+     * @param array $params
+     *
+     * @var int|string $params ['chat_id']
+     * @var int        $params ['message_id']
+     * @var bool       $params ['disable_notification']
+     *
+     * @return mixed
+     */
+    public function pinChatMessage($params)
+    {
+        return $this->sendRequest('pinChatMessage', $params);
+    }
+
+    /**
      * Send an API request and return response.
      *
      * @param $endpoint
