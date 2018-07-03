@@ -51,7 +51,7 @@ class TelegramChannel
 
         if ($message->pinned()) {
             Log::info("pin message");
-            Log::info(var_export($telegram_msg, true));
+            Log::info(var_export($telegram_msg->getBody(), true));
 
             $params = [];
             $params['chat_id']    = $message->getTo();
