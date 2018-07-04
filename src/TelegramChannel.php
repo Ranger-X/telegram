@@ -47,18 +47,17 @@ class TelegramChannel
 
         $params = $message->toArray();
 
-        $telegram_msg = $this->telegram->sendMessage($params);
+        $response = $this->telegram->sendMessage($params);
 
         if ($message->pinned()) {
-            Log::info("pin message");
-            Log::info(var_export($telegram_msg->getBody(), true));
+            $telegram_msg = json_decode($response->getBody(), true);
 
             $params = [];
             $params['chat_id']    = $message->getTo();
-            //$params['message_id'] = $telegram_msg['msg_id'];
+            $params['message_id'] = $telegram_msg['result']['message_id'];
             $params['disable_notification'] = $message->pinNotificationDisabled();
 
-            //$this->telegram->pinChatMessage($params);
+            $this->telegram->pinChatMessage($params);
         }
     }
 }
